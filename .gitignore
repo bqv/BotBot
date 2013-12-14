@@ -36,3 +36,5 @@ nosetests.xml
 
 # Secrets
 conf.json
+*.sql.gz
+dex.db
