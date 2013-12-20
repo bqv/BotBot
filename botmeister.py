@@ -283,6 +283,8 @@ def command(prefix, text, reply, caller, host):
     elif text[0].lower() == "help":
         reply("\x02Name\x02: BotBot, \x02Owner\x02: me, \x02Description\x02: Bot info and registration service. "
                 +"\x02Main commands\x02: !bots, @describe <botname>, @listcmds <botname>, @prefixes <botname>, @helpcmd <commandWithPrefix>")
+        reply("For more, see: http://git.io/a3jrpQ or !longhelp")
+    elif text[0].lower() == "longhelp":
         notice = lambda s: send("NOTICE %s :%s" %(caller, s))
         notice(" ")
         notice("\x02***** BotBot Help *****\x02")
@@ -325,7 +327,7 @@ if sock.connect_ex((host, port)) == 0:
     #send("NICK BotBot")
     send("NICK TobTob")
     send("USER BotMeister * * *")
-    send("PASS "+open("meister/conf.json").read()[:-1])
+    send("PASS "+open("conf.json").read()[:-1])
     while dex:
         try:
             for line in recv():
