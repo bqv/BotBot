@@ -63,29 +63,32 @@ def command(prefix, text, reply, caller, host):
                 prefix TEXT NOT NULL,
                 description TEXT NOT NULL)''')
         reply("\x02Success\x02: Database Initialized")
-    elif text[0].lower() == "rquery":
-        if host.lower() not in ["it.wasnt.me"]:
+    elif text[0].lower().endswith("bquery"):
+        if host.lower() not in ["it.wasnt.me", "goes.rawr"]:
             reply("\x02No.\x02")
             return
         else:
-            reply("\xe4\xba\x86\xe8\xa7\xa3\xe3\x81\x97\xe3\x81\xbe\xe3\x81\x97\xe3\x81\x9f")
+            send("NOTICE %s :%s" %(caller, "\u4e86\u89e3\u3057\u307e\u3057\u305f"))
         q = sql.execute(' '.join(text[1:]))
         reply("R"+str(q.rowcount))
-        for r in q.fetchall():
-            reply(str(r))
+        if text[0][0].lower() == "q":
+            reply(str(list(q.fetchall())))
+        else:
+            for r in q.fetchall():
+                reply(str(r))
     elif text[0].lower() == "echo":
         if host.lower() not in ["it.wasnt.me"]:
             reply("\x02No.\x02")
             return
         else:
-            reply("\xe4\xba\x86\xe8\xa7\xa3\xe3\x81\x97\xe3\x81\xbe\xe3\x81\x97\xe3\x81\x9f")
+            send("NOTICE %s :%s" %(caller, "\u4e86\u89e3\u3057\u307e\u3057\u305f"))
         reply(' '.join(text[1:]))
     elif text[0].lower() == "raw":
         if host.lower() not in ["it.wasnt.me"]:
             reply("\x02No.\x02")
             return
         else:
-            reply("\xe4\xba\x86\xe8\xa7\xa3\xe3\x81\x97\xe3\x81\xbe\xe3\x81\x97\xe3\x81\x9f")
+            send("NOTICE %s :%s" %(caller, "\u4e86\u89e3\u3057\u307e\u3057\u305f"))
         send(' '.join(text[1:]))
     elif text[0].lower() == "ping":
         reply("Pong!")
@@ -282,8 +285,8 @@ def command(prefix, text, reply, caller, host):
                 reply(" --> helpcmd(TEXT bot, TEXT commandWithPrefix)")
     elif text[0].lower() == "help":
         reply("\x02Name\x02: BotBot, \x02Owner\x02: me, \x02Description\x02: Bot info and registration service. "
-                +"\x02Main commands\x02: !bots, @describe <botname>, @listcmds <botname>, @prefixes <botname>, @helpcmd <commandWithPrefix>")
-        reply("For more, see: http://git.io/a3jrpQ or !longhelp")
+                +"\x02Main commands\x02: !bots, @describe <botname>, @listcmds <botname>, @prefixes <botname>, @helpcmd <commandWithPrefix>. "
+                +"For more, see: http://git.io/a3jrpQ or !longhelp")
     elif text[0].lower() == "longhelp":
         notice = lambda s: send("NOTICE %s :%s" %(caller, s))
         notice(" ")
